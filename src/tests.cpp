@@ -114,7 +114,14 @@ void rgb2gray(float *in, float *out, int h, int w) {
      * (1) for循环的使用。
      * (2) 内存的访问。
      */
-
+    int j=0;float v=0;
+    for(int i=0;i<h*w*3;){
+        v+=in[i]*0.2989;
+        v+=in[i+1]*0.587;
+        v+=in[i+2]*0.114;
+        out[j]=v;j++;
+        i+=3;v=0;
+    }
     // IMPLEMENT YOUR CODE HERE
     // ...
 }
