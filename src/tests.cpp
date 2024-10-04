@@ -248,4 +248,23 @@ void hist_eq(float *in, int h, int w) {
      */
 
     // IMPLEMENT YOUR CODE HERE
+    float hash[260]{};
+    int ans[260]{};
+    for(int i=0;i<h*w;i++){
+        hash[static_cast<int>(in[i])]++;
+    }
+    int N=h*w;
+    for(int i=0;i<256;i++){
+        hash[i]/=N;
+    }
+    float x=0;
+    for(int i=0;i<256;i++){
+        hash[i]+=x;
+        x=hash[i];
+        hash[i]*=255;
+        ans[i]=static_cast<int>(hash[i]);
+    }
+    for(int i=0;i<N;i++){
+        in[i]=ans[static_cast<int>(in[i])];
+    }
 }
