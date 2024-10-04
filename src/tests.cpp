@@ -224,6 +224,32 @@ void resize(float *in, float *out, int h, int w, int c, float scale) {
      */
 
     int new_h = h * scale, new_w = w * scale;
+    for(int i=0;i<new_h*new_w*c;i++){
+        float x=i/c%new_w,y=i/c/new_w;x/=scale;y/=scale;
+        int x1=static_cast<int>(x),y1=static_cast<int>(y);
+        int x2,x3,x4,y2,y3,y4;
+        if(x1==w/3-1){
+            x2=x1;x4=x1;
+        }
+        else{
+            x2=x1+1;x4=x1+1;
+        }
+        x3=x1;
+        if(y1==h-1){
+            y3=y1;y4=y1;
+        }
+        else{
+            y3=y1+1;y4=y1+1;
+        }
+        y2=y1;
+        float v1,v2,v3,v4;
+        float dx=x-x1,dy=y-y1;
+        v1=in[y1*w*c+(x1*c)+(i%3)]*(1 - dx)*(1 - dy);
+        v2=in[y2*w*c+(x2*c)+(i%3)]*dx*(1 - dy);
+        v3=in[y3*w*c+(x3*c)+(i%3)]*(1 - dx)*dy;
+        v4=in[y4*w*c+(x4*c)+(i%3)]*dx*dy;
+        out[i]=v1+v2+v3+v4;
+    }
     // IMPLEMENT YOUR CODE HERE
 
 }
